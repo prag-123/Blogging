@@ -1,18 +1,27 @@
 const express = require('express');
 const User = require('../models/user');
+const { generateHmacSignature } = require('../utils/crypto');
+const { generateToken } = require('../utils/authentication');
+const { checkoutForAuthentication } = require('../middlewares/authentication');
+const jwt = require('jsonwebtoken');
+
+
 
 const router = express.Router();
+const blog = require('../models/blog');
 
-router.get('/signup', function(req, res) {
+router.get('/signup', function (req, res) {
     res.render('signup');
 });
 
-router.get('/login',(req, res) => {
+router.get('/login', (req, res) => {
     res.render('login');
 });
 
-router.get('/', (req, res) => {
-    res.render('home');
+router.get('/', checkoutForAuthentication, (req, res) => {
+    console.log(req.cookies);
+    console.log(req.user);
+    res.render('home', { user: req.user });
 });
 
 router.post('/signup', async function handleSignUp(req, res) {
@@ -24,17 +33,30 @@ router.post('/signup', async function handleSignUp(req, res) {
     res.send('User Signup Page');
 });
 
-router.post('/login', async function(req,res){
+router.post('/login', async function (req, res) {
 
-    const {email,password} = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({email, password});
-
-    if(!user){
-        res.redirect('/');
-    }else{
-        res.send('User Login Successful');
+    const user = await User.findOne({ email });
+    if (!user) {
+        throw new Error('User not found');
     }
-})
+    const salt = user.salt;
+    const inputPasswordHash = generateHmacSignature(password, salt);
+
+    if (user.password !== inputPasswordHash) {
+        throw new Error('Invalid password');
+    } else {
+        const token = generateToken(user);
+        res.cookie('token', token, { httpOnly: true });
+        res.redirect('/');
+        // res.render('home', { user: user });
+    }
+});
+
+router.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/login');
+});
 
 module.exports = router;
