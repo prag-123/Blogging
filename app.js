@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -8,13 +9,14 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const Blog = require('./models/blog');
 
+
 const app = express();
-const port = 60001;
+const port = process.env.PORT || 60001;
 
 app.use(cookieParser());
 
 //database connection
-mongoose.connect('mongodb://localhost:27017/blogging').then(() => {
+mongoose.connect(process.env.MONGO_URL).then(() => {
   console.log('Connected to MongoDB');
 }).catch(err => {
   console.error('Error connecting to MongoDB', err);

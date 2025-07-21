@@ -1,30 +1,41 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold me-3" href="/">Blogging App</a>
+    <!-- Logo / Brand -->
+    <a class="navbar-brand fw-bold" href="/">📝 Blogging App</a>
 
-    <!-- Add Blog Button -->
-    <a class="btn btn-outline-light me-auto" href="/blog">Add Blog</a>
-
+    <!-- Toggler for mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
       aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold">
-        <% if (!locals.user) { %>
-          <li class="nav-item">
-            <a class="nav-link" href="/signup">Sign Up</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/login">Log In</a>
-          </li>
-          <% } else { %>
+      <!-- Navbar Content -->
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <% if (locals.user) { %>
             <li class="nav-item">
-              <a class="nav-link" href="/logout">Log Out</a>
+              <a class="nav-link btn btn-outline-light me-2 px-3" href="/blog">➕ Add Blog</a>
             </li>
             <% } %>
-      </ul>
-    </div>
+        </ul>
+
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <% if (!locals.user) { %>
+            <li class="nav-item">
+              <a class="nav-link btn btn-outline-light me-2 px-3" href="/signup">Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn btn-outline-light px-3" href="/login">Log In</a>
+            </li>
+            <% } else { %>
+              <li class="nav-item d-flex align-items-center text-white me-3">
+                👋 Hello, <%= locals.user.fullname.split(" ")[0] %>
+          </li>
+          <li class=" nav-item">
+                  <a class="nav-link btn btn-light text-dark px-3" href="/logout">Log Out</a>
+              </li>
+              <% } %>
+        </ul>
+      </div>
   </div>
 </nav>

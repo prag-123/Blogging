@@ -30,9 +30,7 @@ router.post('/signup', async function handleSignUp(req, res) {
 
     await User.create({ fullname, email, password });
 
-    res.send('User Signup Page');
-
-    res.redirect('/login');
+    res.redirect('/');
 });
 
 router.post('/login', async function (req, res) {
