@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head.ejs') %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <%- include('partials/navbar.ejs') %>
+        <h1>Blog Details</h1>
+        <%= locals.blog.title %>
+            <p>
+                <%= locals.blog.body %>
+            </p>
+            <img src="<%= locals.blog.image %>" alt="Blog Image" class="img-fluid" style="max-width: 25%; height: auto;">
+            <p>Posted on: <%= locals.blog.createdAt.toDateString() %>
+            </p>
+            <a href="/">Back to Home</a>
+
+            <%- include('comment.ejs') %>
+</body>
+
+</html>

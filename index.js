@@ -32,7 +32,7 @@ app.get('/', async (req, res) => {
 });
 
 app.use('/', routes);
-app.use('/add-blog', checkoutForAuthentication, require('./routes/blog'));
+app.use('/blog', checkoutForAuthentication, require('./routes/blog'));
 
 
 app.set('view engine', 'ejs');

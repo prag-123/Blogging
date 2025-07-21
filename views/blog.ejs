@@ -8,17 +8,17 @@
 
 <body>
     <%- include('partials/navbar.ejs') %>
-        <div class="container">
-            <form action="/add-blog" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
+        <div class="container" width="80%" style="margin-top: 20px;">
+            <form action="/blog" method="POST" enctype="multipart/form-data">
+                <div class="form-group" width="80%" style="margin-bottom: 20px;">
                     <label for="title">Title</label>
                     <input type="text" class="form-control" id="title" name="title" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group" width="80%" style="margin-bottom: 20px;">
                     <label for="body">Body</label>
                     <textarea class="form-control" id="body" name="body" rows="5" required></textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group" width="80%" style="margin-bottom: 20px;">
                     <label for="image">Image</label>
                     <input type="file" class="form-control-file" id="image" name="image" required>
                 </div>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment</title>
+</head>
+
+<body>
+    <h1>Comments</h1>
+    <form action="/blog/<%= blog._id %>/comment" method="POST">
+        <textarea name="content" rows="4" cols="50" placeholder="Add a comment..."></textarea>
+        <button type="submit">Submit</button>
+    </form>
+    <ul>
+        <% comments.forEach(function(comment) { %>
+            <% if (comment.userId) { %>
+                <li>
+                    <img src="<%= comment.userId.profilePicture %>" class="rounded-circle"
+                        style="width: 30px; height: 30px;" alt="<%= comment.userId.fullname %>'s profile picture" />
+                    <strong>
+                        <%= comment.userId.fullname %>:
+                    </strong>
+                    <%= comment.content %>
+                </li>
+                <% } else { %>
+                    <li>
+                        <em>Deleted user:</em>
+                        <%= comment.content %>
+                    </li>
+                    <% } %>
+                        <% }) %>
+    </ul>
+    <%- include('partials/script.ejs') %>
+</body>
+
+</html>

@@ -31,6 +31,8 @@ router.post('/signup', async function handleSignUp(req, res) {
     await User.create({ fullname, email, password });
 
     res.send('User Signup Page');
+
+    res.redirect('/login');
 });
 
 router.post('/login', async function (req, res) {
@@ -39,18 +41,17 @@ router.post('/login', async function (req, res) {
 
     const user = await User.findOne({ email });
     if (!user) {
-        throw new Error('User not found');
+        return res.render('signup', { error: 'User not found' });
     }
     const salt = user.salt;
     const inputPasswordHash = generateHmacSignature(password, salt);
 
     if (user.password !== inputPasswordHash) {
-        throw new Error('Invalid password');
+        return res.render('login', { error: 'Invalid password' });
     } else {
         const token = generateToken(user);
         res.cookie('token', token, { httpOnly: true });
         res.redirect('/');
-        // res.render('home', { user: user });
     }
 });
 
